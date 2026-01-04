@@ -1,0 +1,101 @@
+import java.util.Scanner;
+public class ElectricityBill {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+System.out.println("Electricity Board Management System");
+System.out.println("Choose mode:");
+System.out.println("1. Admin (Generate Bill for Customer)");
+System.out.println("2. Customer (View and Pay Bill)");
+int mode = scanner.nextInt();
+scanner.nextLine(); // consume newline
+if (mode == 1) {
+// Admin mode: Generate bill
+System.out.println("Admin Mode: Generate Bill");
+System.out.println("Enter customer ID:");
+String customerId = scanner.nextLine();
+System.out.println("Enter customer name:");
+String name = scanner.nextLine();
+System.out.println("Enter bill number:");
+String billNumber = scanner.nextLine();
+System.out.println("Enter previous meter reading:");
+double previousReading = scanner.nextDouble();
+System.out.println("Enter current meter reading:");
+double currentReading = scanner.nextDouble();
+double units = currentReading - previousReading;
+if (units < 0) {
+System.out.println("Invalid readings. Current reading should be greater than previous.");
+} else {
+double bill = 0.0;
+if (units <= 100) {
+bill = units * 1.5;
+} else if (units <= 200) {
+bill = 100 * 1.5 + (units - 100) * 2.0;
+} else if (units <= 300) {
+bill = 100 * 1.5 + 100 * 2.0 + (units - 200) * 3.0;
+} else {
+bill = 100 * 1.5 + 100 * 2.0 + 100 * 3.0 + (units - 300) * 4.0;
+}
+System.out.println("Enter due date (e.g., 2026-01-31):");
+String dueDate = scanner.next();
+System.out.println("Bill generated successfully for Customer ID: " +
+customerId);
+System.out.println("Bill Number: " + billNumber);
+System.out.println("Units: " + units + ", Amount: $" + bill + ", Due: " +
+dueDate);
+System.out.println("Bill sent to customer.");
+}
+} else if (mode == 2) {
+// Customer mode: View and pay bill
+System.out.println("Customer Mode: View and Pay Bill");
+System.out.println("Enter your customer ID:");
+String customerId = scanner.nextLine();
+// Simulate bill data (in real system, this would be from database)
+String name = "John Doe"; // hardcoded for simulation
+String billNumber = "EB12345";
+double units = 150.0;
+double bill = 100 * 1.5 + 50 * 2.0; // calculated
+String dueDate = "2026-01-31";
+double penalty = 0.0;
+System.out.println("Is the bill overdue? (1 for Yes, 2 for No)");
+int overdueChoice = scanner.nextInt();
+if (overdueChoice == 1) {
+penalty = bill * 0.05;
+bill += penalty;
+}
+System.out.println("\n--- Your Bill Details ---");
+System.out.println("Customer ID: " + customerId);
+System.out.println("Name: " + name);
+System.out.println("Bill Number: " + billNumber);
+System.out.println("Units consumed: " + units);
+System.out.println("Due Date: " + dueDate);
+if (penalty > 0) {
+System.out.println("Penalty: $" + penalty);
+}
+System.out.println("Total bill: $" + bill);
+System.out.println("\nDo you want to pay the bill? (1 for Yes, 2 for No)");
+int payChoice = scanner.nextInt();
+if (payChoice == 1) {
+System.out.println("Select payment method: 1. Cash, 2. Card, 3. Online");
+int paymentMethod = scanner.nextInt();
+if (paymentMethod == 1) {
+System.out.println("Payment by Cash successful.");
+} else if (paymentMethod == 2) {
+System.out.println("Payment by Card successful.");
+} else if (paymentMethod == 3) {
+System.out.println("Payment by Online successful.");
+} else {
+System.out.println("Invalid payment method.");
+}
+System.out.println("Bill paid. Receipt generated.");
+System.out.println("Next bill will be generated after next meter reading.");
+} else if (payChoice == 2) {
+System.out.println("Bill not paid. Please pay to avoid further penalties.");
+} else {
+System.out.println("Invalid choice.");
+}
+} else {
+System.out.println("Invalid mode selected.");
+}
+scanner.close();
+}
+}
